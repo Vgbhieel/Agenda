@@ -1,8 +1,10 @@
 package me.vitornascimento.agenda.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import me.vitornascimento.agenda.dao.AlunoDAO
 import me.vitornascimento.agenda.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,12 +17,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         setTitle("Lista de Alunos")
 
-        val listaAlunos = arrayListOf("João", "José", "Maria", "Ana", "Paulo",
-                                      "João", "José", "Maria", "Ana", "José",
-                                      "Maria", "Ana", "Paulo", "João", "José",
-                                      "Maria", "Ana")
-        val lvAlunos = binding.lvAlunos
+        val fabNovoAluno = binding.fabMain
+        fabNovoAluno.setOnClickListener{
+            startActivity(Intent(this, FormularioAlunoActivity::class.java))
+        }
+    }
 
-        lvAlunos.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listaAlunos)
+    override fun onResume() {
+        super.onResume()
+        val lvAlunos = binding.lvAlunos
+        val dao = AlunoDAO
+        lvAlunos.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, dao.todos())
     }
 }
