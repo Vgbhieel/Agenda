@@ -20,22 +20,24 @@ class FormularioAlunoActivity : AppCompatActivity() {
         setTitle("Novo Aluno")
 
         val btnSalvar = binding.btnFormularioAlunoSalvar
+        btnSalvar.setOnClickListener {
+            salvarAluno()
+        }
+    }
 
-        btnSalvar.setOnClickListener{
-            val campoNome = binding.etFormularioAlunoNome.text.toString()
-            val campoTelefone = binding.etFormularioAlunoTelefone.text.toString()
-            val campoEmail = binding.etFormularioAlunoEmail.text.toString()
+    private fun salvarAluno() {
+        val campoNome = binding.etFormularioAlunoNome.text.toString()
+        val campoTelefone = binding.etFormularioAlunoTelefone.text.toString()
+        val campoEmail = binding.etFormularioAlunoEmail.text.toString()
 
-            if (campoNome.isNotBlank()) {
-                val alunoCriado = Aluno(campoNome, campoTelefone, campoEmail)
-                val dao = AlunoDAO()
-                dao.salva(alunoCriado)
-                finish()
-            } else {
-                binding.etFormularioAlunoNome.requestFocus()
-                Toast.makeText(this, "O campo nome é obrigatório.", Toast.LENGTH_SHORT).show()
-            }
-
+        if (campoNome.isNotBlank()) {
+            val alunoCriado = Aluno(campoNome, campoTelefone, campoEmail)
+            val dao = AlunoDAO()
+            dao.salva(alunoCriado)
+            finish()
+        } else {
+            binding.etFormularioAlunoNome.requestFocus()
+            Toast.makeText(this, "O campo nome é obrigatório.", Toast.LENGTH_SHORT).show()
         }
     }
 }
