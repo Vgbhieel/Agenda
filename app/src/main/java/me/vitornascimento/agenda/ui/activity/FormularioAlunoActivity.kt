@@ -4,6 +4,7 @@ package me.vitornascimento.agenda.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import me.vitornascimento.agenda.R
 import me.vitornascimento.agenda.databinding.FormularioAlunoActivityBinding
 import me.vitornascimento.agenda.model.Aluno
 import me.vitornascimento.agenda.dao.AlunoDAO
@@ -17,7 +18,7 @@ class FormularioAlunoActivity : AppCompatActivity() {
         binding = FormularioAlunoActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setTitle("Novo Aluno")
+        title = getString(R.string.titulo_formulario_aluno)
 
         val btnSalvar = binding.btnFormularioAlunoSalvar
         btnSalvar.setOnClickListener {
@@ -39,5 +40,6 @@ class FormularioAlunoActivity : AppCompatActivity() {
             binding.etFormularioAlunoNome.requestFocus()
             Toast.makeText(this, "O campo nome é obrigatório.", Toast.LENGTH_SHORT).show()
         }
+
     }
 }
