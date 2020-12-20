@@ -1,4 +1,4 @@
-package me.vitornascimento.agenda
+package me.vitornascimento.agenda.ui.activity
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
