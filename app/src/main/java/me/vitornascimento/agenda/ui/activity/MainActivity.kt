@@ -28,6 +28,13 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         val lvAlunos = binding.lvAlunos
         val dao = AlunoDAO
-        lvAlunos.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, dao.todos())
+        val todosAlunos = dao.todos()
+        lvAlunos.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, todosAlunos)
+        lvAlunos.setOnItemClickListener { parent, view, position, id ->
+            val alunoClicado = todosAlunos[position]
+            val vaiParaFormularioAlunoActivity = Intent(this, FormularioAlunoActivity::class.java)
+            vaiParaFormularioAlunoActivity.putExtra("aluno", alunoClicado)
+            startActivity(vaiParaFormularioAlunoActivity)
+        }
     }
 }
