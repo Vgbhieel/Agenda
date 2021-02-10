@@ -1,5 +1,6 @@
 package me.vitornascimento.agenda.ui.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
@@ -8,10 +9,9 @@ import android.view.View
 import android.widget.AdapterView.AdapterContextMenuInfo
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.agenda.R
-import me.vitornascimento.agenda.ui.adapter.AlunoAdapter
 import me.vitornascimento.agenda.dao.AlunoDAO
 import me.vitornascimento.agenda.databinding.MainActivityBinding
-import me.vitornascimento.agenda.model.Aluno
+import me.vitornascimento.agenda.ui.adapter.AlunoAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -62,10 +62,18 @@ class MainActivity : AppCompatActivity() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.menu_remover) {
-            val menuInfo: AdapterContextMenuInfo = item.menuInfo as AdapterContextMenuInfo
-            val alunoClicado = adapter.getItem(menuInfo.position)
-            dao.remove(alunoClicado as Aluno)
-            adapter.remove(alunoClicado)
+            val dialog = AlertDialog
+                .Builder(this).setTitle("Removendo aluno")
+                .setMessage("Tem certeza que deseja remover o aluno?")
+                .setPositiveButton("Sim") { _, _ ->
+                    val menuInfo: AdapterContextMenuInfo = item.menuInfo as AdapterContextMenuInfo
+                    val alunoClicado = adapter.getItem(menuInfo.position)
+                    dao.remove(alunoClicado)
+                    adapter.remove(alunoClicado)
+                }
+                .setNegativeButton("Cancelar", null)
+                .create()
+            dialog.show()
         }
 
         return super.onContextItemSelected(item)
