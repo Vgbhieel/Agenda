@@ -21,7 +21,7 @@ class AlunoDAO {
         fun edita(alunoClicado: Aluno) {
             for (aluno: Aluno in alunos) {
                 if (alunoClicado.id == aluno.id) {
-                    alunos.set(alunos.indexOf(aluno), alunoClicado)
+                    alunos[alunos.indexOf(aluno)] = alunoClicado
                 }
             }
         }

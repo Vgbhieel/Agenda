@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package me.vitornascimento.agenda
 
 import android.app.Application

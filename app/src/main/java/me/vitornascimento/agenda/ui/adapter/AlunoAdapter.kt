@@ -9,7 +9,7 @@ import android.widget.TextView
 import me.vitornascimento.agenda.R
 import me.vitornascimento.agenda.model.Aluno
 
-class AlunoAdapter(val context: Context) : BaseAdapter() {
+class AlunoAdapter(private val context: Context) : BaseAdapter() {
 
     private val alunos = ArrayList<Aluno>()
 
