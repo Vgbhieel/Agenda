@@ -35,9 +35,6 @@ class MainActivity : AppCompatActivity() {
         binding.lvAlunos.adapter = adapter
 
         registerForContextMenu(binding.lvAlunos)
-
-        dao.salva(Aluno("Vitor", "21966589742"))
-        dao.salva(Aluno("Gabriel", "21988553779"))
     }
 
     override fun onResume() {
