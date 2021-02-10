@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         title = getString(R.string.titulo_main)
 
-        val fabNovoAluno = binding.fabMain
-        fabNovoAluno.setOnClickListener {
+        binding.fabMain.setOnClickListener {
             startActivity(Intent(this, FormularioAlunoActivity::class.java))
         }
 
@@ -51,8 +50,7 @@ class MainActivity : AppCompatActivity() {
         adapter.addAll(dao.todos())
 
         binding.lvAlunos.setOnItemClickListener { _, _, position, _ ->
-            val todosAlunos = dao.todos()
-            val alunoClicado = todosAlunos[position]
+            val alunoClicado = adapter.getItem(position)
             val vaiParaFormularioAlunoActivity = Intent(this, FormularioAlunoActivity::class.java)
             vaiParaFormularioAlunoActivity.putExtra("aluno", alunoClicado)
             startActivity(vaiParaFormularioAlunoActivity)
