@@ -12,27 +12,28 @@ class AlunoDAO {
             return ArrayList(alunos)
         }
 
-    }
+        fun salva(aluno: Aluno) {
+            aluno.id = contadorDeId
+            alunos.add(aluno)
+            contadorDeId++
+        }
 
-    fun edita(alunoClicado: Aluno) {
-        for (aluno: Aluno in alunos) {
-            if (alunoClicado.id == aluno.id) {
-                alunos.set(alunos.indexOf(aluno), alunoClicado)
+        fun edita(alunoClicado: Aluno) {
+            for (aluno: Aluno in alunos) {
+                if (alunoClicado.id == aluno.id) {
+                    alunos.set(alunos.indexOf(aluno), alunoClicado)
+                }
             }
         }
-    }
 
-    fun salva(aluno: Aluno) {
-        aluno.id = contadorDeId
-        alunos.add(aluno)
-        contadorDeId++
-    }
-
-    fun remove(alunoClicado: Aluno) {
-        for (aluno: Aluno in alunos) {
-            if (alunoClicado.id == aluno.id) {
-                alunos.removeAt(alunos.indexOf(aluno))
+        fun remove(alunoClicado: Aluno) {
+            for (aluno: Aluno in alunos) {
+                if (alunoClicado.id == aluno.id) {
+                    alunos.removeAt(alunos.indexOf(aluno))
+                    break
+                }
             }
         }
+
     }
 }

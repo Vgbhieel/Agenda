@@ -17,7 +17,7 @@ class FormularioAlunoActivity : AppCompatActivity() {
     private lateinit var campoTelefone: EditText
     private lateinit var campoEmail: EditText
     private lateinit var aluno: Aluno
-    private val dao = AlunoDAO()
+    private val dao = AlunoDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
