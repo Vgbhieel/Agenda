@@ -27,4 +27,12 @@ class AlunoDAO {
         alunos.add(aluno)
         contadorDeId++
     }
+
+    fun remove(alunoClicado: Aluno) {
+        for (aluno: Aluno in alunos) {
+            if (alunoClicado.id == aluno.id) {
+                alunos.removeAt(alunos.indexOf(aluno))
+            }
+        }
+    }
 }
