@@ -2,6 +2,8 @@ package me.vitornascimento.agenda.ui.activity
 
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,16 +27,21 @@ class FormularioAlunoActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         inicializaCampos()
-        configuraBtnSalvar()
         carregaAluno()
     }
 
-    private fun configuraBtnSalvar() {
-        val btnSalvar = binding.btnFormularioAlunoSalvar
-        btnSalvar.setOnClickListener {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.formulario_aluno_activity_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_salvar) {
             finalizaFormulario()
         }
+        return super.onOptionsItemSelected(item)
     }
+
 
     private fun finalizaFormulario() {
         preencheAluno()

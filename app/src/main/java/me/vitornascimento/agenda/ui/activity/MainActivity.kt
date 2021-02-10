@@ -2,7 +2,6 @@ package me.vitornascimento.agenda.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
@@ -16,7 +15,7 @@ import me.vitornascimento.agenda.model.Aluno
 
 
 class MainActivity : AppCompatActivity() {
-    
+
     private lateinit var binding: MainActivityBinding
     private val dao = AlunoDAO
     private lateinit var adapter: ArrayAdapter<Aluno?>
@@ -37,10 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         registerForContextMenu(binding.lvAlunos)
 
-        val vitor = Aluno("Vitor", "21966589742")
-            dao.salva(vitor)
-        val gabrieel = Aluno("Gabriel", "21988553779")
-            dao.salva(gabrieel)
+        dao.salva(Aluno("Vitor", "21966589742"))
+        dao.salva(Aluno("Gabriel", "21988553779"))
     }
 
     override fun onResume() {
