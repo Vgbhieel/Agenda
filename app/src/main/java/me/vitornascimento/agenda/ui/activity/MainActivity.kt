@@ -65,14 +65,18 @@ class MainActivity : AppCompatActivity() {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        menu?.add("Remover")
+        menuInflater.inflate(R.menu.main_activity_menu, menu)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val menuInfo: AdapterContextMenuInfo = item.menuInfo as AdapterContextMenuInfo
-        val alunoClicado = adapter.getItem(menuInfo.position)
-        dao.remove(alunoClicado as Aluno)
-        adapter.remove(alunoClicado)
+
+        if (item.itemId == R.id.menu_remover) {
+            val menuInfo: AdapterContextMenuInfo = item.menuInfo as AdapterContextMenuInfo
+            val alunoClicado = adapter.getItem(menuInfo.position)
+            dao.remove(alunoClicado as Aluno)
+            adapter.remove(alunoClicado)
+        }
+
         return super.onContextItemSelected(item)
     }
 }
