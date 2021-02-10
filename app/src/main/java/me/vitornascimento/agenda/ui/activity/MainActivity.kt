@@ -6,9 +6,9 @@ import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView.AdapterContextMenuInfo
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.agenda.R
+import me.vitornascimento.agenda.ui.adapter.AlunoAdapter
 import me.vitornascimento.agenda.dao.AlunoDAO
 import me.vitornascimento.agenda.databinding.MainActivityBinding
 import me.vitornascimento.agenda.model.Aluno
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityBinding
     private val dao = AlunoDAO
-    private lateinit var adapter: ArrayAdapter<Aluno?>
+    private lateinit var adapter: AlunoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, FormularioAlunoActivity::class.java))
         }
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, dao.todos())
+        adapter = AlunoAdapter(this)
         binding.lvAlunos.adapter = adapter
 
         registerForContextMenu(binding.lvAlunos)
@@ -43,8 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        adapter.clear()
-        adapter.addAll(dao.todos())
+        adapter.atualiza(dao.todos())
 
         binding.lvAlunos.setOnItemClickListener { _, _, position, _ ->
             val alunoClicado = adapter.getItem(position)
