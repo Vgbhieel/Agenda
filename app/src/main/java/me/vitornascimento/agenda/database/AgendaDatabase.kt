@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import me.vitornascimento.agenda.dao.AlunoDAO
+import me.vitornascimento.agenda.database.converter.ConversorCalender
 import me.vitornascimento.agenda.model.Aluno
 
-@Database(entities = [Aluno::class], version = 1, exportSchema = false)
+@Database(entities = [Aluno::class], version = 4, exportSchema = false)
+@TypeConverters(value = [ConversorCalender::class])
 abstract class AgendaDatabase : RoomDatabase() {
 
     abstract fun getDAO(): AlunoDAO
