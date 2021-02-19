@@ -33,7 +33,7 @@ class AlunoAdapter(private val context: Context) : BaseAdapter() {
         val nomeCompleto: TextView = view.findViewById(R.id.item_aluno_nome)
         val telefone: TextView = view.findViewById(R.id.item_aluno_telefone)
         nomeCompleto.text = this.alunos[position].getNomeCompleto()
-        telefone.text = this.alunos[position].telefone
+        telefone.text = this.alunos[position].getTelefone()
 
         return view
     }

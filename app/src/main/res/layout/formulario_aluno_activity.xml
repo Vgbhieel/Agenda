@@ -14,17 +14,23 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="@string/hint_nome"
-            android:inputType="textPersonName"
-            />
+            android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/etFormularioAlunoTelefone"
+            android:id="@+id/etFormularioAlunoTelefoneCelular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="@string/hint_telefone"
-            android:inputType="phone"
-            />
+            android:hint="@string/hint_telefone_celular"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/etFormularioAlunoTelefoneFixo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/hint_telefone_fixo"
+            android:inputType="phone" />
 
         <EditText
             android:id="@+id/etFormularioAlunoEmail"
@@ -32,8 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="@string/hint_email"
-            android:inputType="textEmailAddress"
-            />
+            android:inputType="textEmailAddress" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

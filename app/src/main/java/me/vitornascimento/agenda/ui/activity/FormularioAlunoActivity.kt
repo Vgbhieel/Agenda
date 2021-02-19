@@ -17,7 +17,8 @@ import me.vitornascimento.agenda.model.Aluno
 class FormularioAlunoActivity : AppCompatActivity() {
     private lateinit var binding: FormularioAlunoActivityBinding
     private lateinit var campoNome: EditText
-    private lateinit var campoTelefone: EditText
+    private lateinit var campoTelefoneCelular: EditText
+    private lateinit var campoTelefoneFixo: EditText
     private lateinit var campoEmail: EditText
     private lateinit var aluno: Aluno
     private lateinit var dao: AlunoDAO
@@ -49,7 +50,7 @@ class FormularioAlunoActivity : AppCompatActivity() {
 
     private fun finalizaFormulario() {
         preencheAluno()
-        if (aluno.nome.isNotBlank() and (aluno.telefone.isNotBlank() or aluno.email.isNotBlank())) {
+        if (aluno.nome?.isNotBlank()!! and (aluno.telefoneCelular?.isNotBlank()!! or aluno.telefoneFixo?.isNotBlank()!! or aluno.email?.isNotBlank()!!)) {
             if (aluno.id > 0) {
                 dao.edita(aluno)
                 finish()
@@ -68,11 +69,13 @@ class FormularioAlunoActivity : AppCompatActivity() {
 
     private fun preencheAluno() {
         val nome = campoNome.text.toString()
-        val telefone = campoTelefone.text.toString()
+        val telefoneCelular = campoTelefoneCelular.text.toString()
+        val telefoneFixo = campoTelefoneFixo.text.toString()
         val email = campoEmail.text.toString()
 
         aluno.nome = nome
-        aluno.telefone = telefone
+        aluno.telefoneCelular = telefoneCelular
+        aluno.telefoneFixo = telefoneFixo
         aluno.email = email
     }
 
@@ -84,19 +87,21 @@ class FormularioAlunoActivity : AppCompatActivity() {
             preencheCampos()
         } else {
             title = getString(R.string.titulo_formulario_aluno)
-            aluno = Aluno("", "", "")
+            aluno = Aluno()
         }
     }
 
     private fun preencheCampos() {
         campoNome.setText(aluno.nome)
-        campoTelefone.setText(aluno.telefone)
+        campoTelefoneCelular.setText(aluno.telefoneCelular)
+        campoTelefoneFixo.setText(aluno.telefoneFixo)
         campoEmail.setText(aluno.email)
     }
 
     private fun inicializaCampos() {
         campoNome = binding.etFormularioAlunoNome
-        campoTelefone = binding.etFormularioAlunoTelefone
+        campoTelefoneCelular = binding.etFormularioAlunoTelefoneCelular
+        campoTelefoneFixo = binding.etFormularioAlunoTelefoneFixo
         campoEmail = binding.etFormularioAlunoEmail
     }
 }
