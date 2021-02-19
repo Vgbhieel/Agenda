@@ -30,9 +30,9 @@ class AlunoAdapter(private val context: Context) : BaseAdapter() {
             .from(context)
             .inflate(R.layout.item_aluno, parent, false)
 
-        val nome: TextView = view.findViewById(R.id.item_aluno_nome)
+        val nomeCompleto: TextView = view.findViewById(R.id.item_aluno_nome)
         val telefone: TextView = view.findViewById(R.id.item_aluno_telefone)
-        nome.text = this.alunos[position].nome
+        nomeCompleto.text = this.alunos[position].getNomeCompleto()
         telefone.text = this.alunos[position].telefone
 
         return view

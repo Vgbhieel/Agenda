@@ -84,7 +84,7 @@ class FormularioAlunoActivity : AppCompatActivity() {
             preencheCampos()
         } else {
             title = getString(R.string.titulo_formulario_aluno)
-            aluno = Aluno()
+            aluno = Aluno("", "", "")
         }
     }
 

@@ -8,13 +8,17 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 data class Aluno(
-    var nome: String = "",
-    var telefone: String = "",
-    var email: String = "",
+    var nome: String,
+    var telefone: String,
+    var email: String,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 ) : Parcelable {
     override fun toString(): String {
+        return nome
+    }
+
+    fun getNomeCompleto(): String {
         return nome
     }
 }
