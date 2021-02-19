@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.agenda.R
 import me.vitornascimento.agenda.dao.AlunoDAO
+import me.vitornascimento.agenda.database.AgendaDatabase
 import me.vitornascimento.agenda.databinding.FormularioAlunoActivityBinding
 import me.vitornascimento.agenda.model.Aluno
 
@@ -19,7 +20,7 @@ class FormularioAlunoActivity : AppCompatActivity() {
     private lateinit var campoTelefone: EditText
     private lateinit var campoEmail: EditText
     private lateinit var aluno: Aluno
-    private val dao = AlunoDAO
+    private lateinit var dao: AlunoDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,9 @@ class FormularioAlunoActivity : AppCompatActivity() {
         setContentView(view)
         inicializaCampos()
         carregaAluno()
+
+        dao = AgendaDatabase.getInstance(this).getDAO()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

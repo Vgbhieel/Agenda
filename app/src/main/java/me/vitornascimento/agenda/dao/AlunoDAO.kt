@@ -1,39 +1,21 @@
 package me.vitornascimento.agenda.dao
 
+import androidx.room.*
 import me.vitornascimento.agenda.model.Aluno
 
-class AlunoDAO {
+@Dao
+interface AlunoDAO {
 
-    companion object {
-        private val alunos = ArrayList<Aluno>()
-        private var contadorDeId = 1
+    @Insert
+    fun salva(aluno: Aluno)
 
-        fun todos(): List<Aluno> {
-            return ArrayList(alunos)
-        }
+    @Query("SELECT * FROM aluno")
+    fun todos(): List<Aluno>
 
-        fun salva(aluno: Aluno) {
-            aluno.id = contadorDeId
-            alunos.add(aluno)
-            contadorDeId++
-        }
+    @Delete
+    fun remove(aluno: Aluno)
 
-        fun edita(alunoClicado: Aluno) {
-            for (aluno: Aluno in alunos) {
-                if (alunoClicado.id == aluno.id) {
-                    alunos[alunos.indexOf(aluno)] = alunoClicado
-                }
-            }
-        }
+    @Update
+    fun edita(aluno: Aluno)
 
-        fun remove(alunoClicado: Aluno) {
-            for (aluno: Aluno in alunos) {
-                if (alunoClicado.id == aluno.id) {
-                    alunos.removeAt(alunos.indexOf(aluno))
-                    break
-                }
-            }
-        }
-
-    }
 }

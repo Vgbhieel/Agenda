@@ -10,6 +10,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.agenda.R
 import me.vitornascimento.agenda.dao.AlunoDAO
+import me.vitornascimento.agenda.database.AgendaDatabase
 import me.vitornascimento.agenda.databinding.MainActivityBinding
 import me.vitornascimento.agenda.ui.adapter.AlunoAdapter
 
@@ -17,7 +18,7 @@ import me.vitornascimento.agenda.ui.adapter.AlunoAdapter
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityBinding
-    private val dao = AlunoDAO
+    lateinit var dao: AlunoDAO
     private lateinit var adapter: AlunoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         binding.lvAlunos.adapter = adapter
 
         registerForContextMenu(binding.lvAlunos)
+
+        dao = AgendaDatabase.getInstance(this).getDAO()
     }
 
     override fun onResume() {
