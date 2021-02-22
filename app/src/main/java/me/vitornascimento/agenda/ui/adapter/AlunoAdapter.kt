@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import me.vitornascimento.agenda.R
+import me.vitornascimento.agenda.database.AgendaDatabase
 import me.vitornascimento.agenda.model.Aluno
 
 class AlunoAdapter(private val context: Context) : BaseAdapter() {
 
     private val alunos = ArrayList<Aluno>()
+    private val dao = AgendaDatabase.getInstance(context).getTelefoneDAO()
 
     override fun getCount(): Int {
         return this.alunos.size
@@ -30,10 +32,11 @@ class AlunoAdapter(private val context: Context) : BaseAdapter() {
             .from(context)
             .inflate(R.layout.item_aluno, parent, false)
 
-        val nomeCompleto: TextView = view.findViewById(R.id.item_aluno_nome)
+        val nome: TextView = view.findViewById(R.id.item_aluno_nome)
         val telefone: TextView = view.findViewById(R.id.item_aluno_telefone)
-        nomeCompleto.text = this.alunos[position].getNomeCompleto()
-        telefone.text = this.alunos[position].getTelefone()
+        val alunoAtual = alunos[position]
+        nome.text = alunoAtual.nome
+        telefone.text = dao.buscaPrimeiroTelefoneDoAluno(alunoAtual.id).numero
 
         return view
     }

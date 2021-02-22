@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         registerForContextMenu(binding.lvAlunos)
 
-        dao = AgendaDatabase.getInstance(this).getDAO()
+        dao = AgendaDatabase.getInstance(this).getAlunoDAO()
     }
 
     override fun onResume() {

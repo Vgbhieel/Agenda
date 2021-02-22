@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.agenda.R
 import me.vitornascimento.agenda.dao.AlunoDAO
@@ -31,7 +30,7 @@ class FormularioAlunoActivity : AppCompatActivity() {
         inicializaCampos()
         carregaAluno()
 
-        dao = AgendaDatabase.getInstance(this).getDAO()
+        dao = AgendaDatabase.getInstance(this).getAlunoDAO()
 
     }
 
@@ -50,32 +49,24 @@ class FormularioAlunoActivity : AppCompatActivity() {
 
     private fun finalizaFormulario() {
         preencheAluno()
-        if (aluno.nome?.isNotBlank()!! and (aluno.telefoneCelular?.isNotBlank()!! or aluno.telefoneFixo?.isNotBlank()!! or aluno.email?.isNotBlank()!!)) {
-            if (aluno.id > 0) {
-                dao.edita(aluno)
-                finish()
-            } else {
-                dao.salva(aluno)
-                finish()
-            }
+        if (aluno.id > 0) {
+            dao.edita(aluno)
+            finish()
         } else {
-            Toast.makeText(
-                this,
-                "O campo nome e ao menos um contato são obrigatórios.",
-                Toast.LENGTH_LONG
-            ).show()
+            dao.salva(aluno)
+            finish()
         }
     }
 
     private fun preencheAluno() {
         val nome = campoNome.text.toString()
-        val telefoneCelular = campoTelefoneCelular.text.toString()
-        val telefoneFixo = campoTelefoneFixo.text.toString()
+//        val telefoneCelular = campoTelefoneCelular.text.toString()
+//        val telefoneFixo = campoTelefoneFixo.text.toString()
         val email = campoEmail.text.toString()
 
         aluno.nome = nome
-        aluno.telefoneCelular = telefoneCelular
-        aluno.telefoneFixo = telefoneFixo
+//        aluno.telefoneCelular = telefoneCelular
+//        aluno.telefoneFixo = telefoneFixo
         aluno.email = email
     }
 
@@ -93,8 +84,8 @@ class FormularioAlunoActivity : AppCompatActivity() {
 
     private fun preencheCampos() {
         campoNome.setText(aluno.nome)
-        campoTelefoneCelular.setText(aluno.telefoneCelular)
-        campoTelefoneFixo.setText(aluno.telefoneFixo)
+//        campoTelefoneCelular.setText(aluno.telefoneCelular)
+//        campoTelefoneFixo.setText(aluno.telefoneFixo)
         campoEmail.setText(aluno.email)
     }
 

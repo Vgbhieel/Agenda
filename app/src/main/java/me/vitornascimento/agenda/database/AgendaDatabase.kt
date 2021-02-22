@@ -8,14 +8,18 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import me.vitornascimento.agenda.dao.AlunoDAO
+import me.vitornascimento.agenda.dao.TelefoneDAO
 import me.vitornascimento.agenda.database.converter.ConversorCalender
+import me.vitornascimento.agenda.database.converter.ConversorTipoTelefone
 import me.vitornascimento.agenda.model.Aluno
+import me.vitornascimento.agenda.model.Telefone
 
-@Database(entities = [Aluno::class], version = 6, exportSchema = false)
-@TypeConverters(value = [ConversorCalender::class])
+@Database(entities = [Aluno::class, Telefone::class], version = 7, exportSchema = false)
+@TypeConverters(value = [ConversorCalender::class, ConversorTipoTelefone::class])
 abstract class AgendaDatabase : RoomDatabase() {
 
-    abstract fun getDAO(): AlunoDAO
+    abstract fun getAlunoDAO(): AlunoDAO
+    abstract fun getTelefoneDAO(): TelefoneDAO
 
     companion object {
 
