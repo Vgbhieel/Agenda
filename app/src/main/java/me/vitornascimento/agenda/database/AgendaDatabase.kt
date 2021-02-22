@@ -13,6 +13,7 @@ import me.vitornascimento.agenda.database.converter.ConversorCalender
 import me.vitornascimento.agenda.database.converter.ConversorTipoTelefone
 import me.vitornascimento.agenda.model.Aluno
 import me.vitornascimento.agenda.model.Telefone
+import me.vitornascimento.agenda.model.TipoTelefone
 
 @Database(entities = [Aluno::class, Telefone::class], version = 7, exportSchema = false)
 @TypeConverters(value = [ConversorCalender::class, ConversorTipoTelefone::class])
@@ -29,37 +30,55 @@ abstract class AgendaDatabase : RoomDatabase() {
             val db = Room
                 .databaseBuilder(context, AgendaDatabase::class.java, NOME_DB)
                 .allowMainThreadQueries()
-                .addMigrations(object : Migration(5, 6) {
+                .addMigrations(object : Migration(6, 7) {
                     override fun migrate(database: SupportSQLiteDatabase) {
 
                         //RENOMEIA A TABELA  A ANTIGA TABELA
-                        database.execSQL("ALTER TABLE Aluno RENAME TO tmp")
+                        database.execSQL("ALTER TABLE Aluno RENAME TO tmp_aluno")
 
                         //CRIA NOVA TABELA COM A ESTRUTURA DESEJADA
                         database.execSQL(
-                            "CREATE TABLE `Aluno` (" +
-                                    "`nome` TEXT, " +
-                                    "`telefoneCelular` TEXT, " +
-                                    "`telefoneFixo` TEXT, " +
-                                    "`email` TEXT, " +
+                            "CREATE TABLE IF NOT EXISTS `Aluno` (" +
                                     "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                                    "`nome` TEXT, " +
+                                    "`email` TEXT, " +
                                     "`momentoDeCadastro` INTEGER NOT NULL)"
                         )
 
                         //INSERE OS DADOS DA ANTIGA TABELA
                         database.execSQL(
                             "INSERT INTO Aluno (" +
-                                    "nome," +
-                                    "telefoneCelular," +
-                                    "telefoneFixo," +
-                                    "email," +
                                     "id," +
+                                    "nome," +
+                                    "email," +
                                     "momentoDeCadastro) " +
-                                    "SELECT nome, telefoneCelular, telefoneFixo, email, id, momentoDeCadastro FROM tmp"
+                                    "SELECT id, nome, email, momentoDeCadastro FROM tmp_aluno"
+                        )
+
+                        //CRIANDO NOVA TABELA Telefone
+                        database.execSQL(
+                            "CREATE TABLE IF NOT EXISTS `Telefone` (" +
+                                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                                    "`alunoId` INTEGER NOT NULL, " +
+                                    "`numero` TEXT, " +
+                                    "`tipo` TEXT)"
+                        )
+
+                        //INSERE OS DADOS EXISTENTES NA NOVA TABELA Telefone
+                        database.execSQL(
+                            "INSERT INTO Telefone (" +
+                                    "alunoId," +
+                                    "numero) " +
+                                    "SELECT id, telefoneFixo FROM tmp_aluno"
+                        )
+
+                        //TODOS OS DADOS DA Telefone SAO FIXOS, LOGO UPDATE TIPO
+                        database.execSQL(
+                            "UPDATE Telefone SET tipo = ?", arrayOf(TipoTelefone.FIXO)
                         )
 
                         //REMOVE TABELA COM A ESTRUTURA ANTIGA
-                        database.execSQL("DROP TABLE tmp")
+                        database.execSQL("DROP TABLE tmp_aluno")
 
                     }
                 })

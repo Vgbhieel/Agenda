@@ -5,7 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity
-data class Telefone(var numero: String, var tipoTelefone: TipoTelefone) {
+data class Telefone(var numero: String?, var tipo: TipoTelefone?) {
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 1
