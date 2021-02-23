@@ -8,9 +8,12 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.agenda.R
 import me.vitornascimento.agenda.dao.AlunoDAO
+import me.vitornascimento.agenda.dao.TelefoneDAO
 import me.vitornascimento.agenda.database.AgendaDatabase
 import me.vitornascimento.agenda.databinding.FormularioAlunoActivityBinding
 import me.vitornascimento.agenda.model.Aluno
+import me.vitornascimento.agenda.model.Telefone
+import me.vitornascimento.agenda.model.TipoTelefone
 
 
 class FormularioAlunoActivity : AppCompatActivity() {
@@ -20,18 +23,23 @@ class FormularioAlunoActivity : AppCompatActivity() {
     private lateinit var campoTelefoneFixo: EditText
     private lateinit var campoEmail: EditText
     private lateinit var aluno: Aluno
-    private lateinit var dao: AlunoDAO
+    private lateinit var db: AgendaDatabase
+    private lateinit var alunoDao: AlunoDAO
+    private lateinit var telefoneDao: TelefoneDAO
+    private lateinit var todosTelefonesDoAluno: List<Telefone>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FormularioAlunoActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        db = AgendaDatabase.getInstance(this)
+        alunoDao = db.getAlunoDAO()
+        telefoneDao = db.getTelefoneDAO()
+
         inicializaCampos()
         carregaAluno()
-
-        dao = AgendaDatabase.getInstance(this).getAlunoDAO()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -48,26 +56,76 @@ class FormularioAlunoActivity : AppCompatActivity() {
 
 
     private fun finalizaFormulario() {
-        preencheAluno()
-        if (aluno.id > 0) {
-            dao.edita(aluno)
+
+        preencheObjetoAluno()
+
+        if (alunoTemIdValido()) {
+
+            alunoDao.edita(aluno)
+
+            editaTelefones()
+
             finish()
+
         } else {
-            dao.salva(aluno)
+
+            val idAlunoSalvo = alunoDao.salva(aluno).toInt()
+            val numeroCelular = campoTelefoneCelular.text.toString()
+            val numeroFixo = campoTelefoneFixo.text.toString()
+
+            salvaNumeros(numeroCelular, numeroFixo, idAlunoSalvo)
+
             finish()
+
         }
     }
 
-    private fun preencheAluno() {
-        val nome = campoNome.text.toString()
-//        val telefoneCelular = campoTelefoneCelular.text.toString()
-//        val telefoneFixo = campoTelefoneFixo.text.toString()
-        val email = campoEmail.text.toString()
+    private fun editaTelefones() {
+        todosTelefonesDoAluno.forEach {
 
-        aluno.nome = nome
-//        aluno.telefoneCelular = telefoneCelular
-//        aluno.telefoneFixo = telefoneFixo
-        aluno.email = email
+            if (it.tipo == TipoTelefone.CELULAR) {
+                it.numero = campoTelefoneCelular.text.toString()
+            } else {
+                it.numero = campoTelefoneFixo.text.toString()
+            }
+
+        }
+        telefoneDao.edita(todosTelefonesDoAluno)
+    }
+
+    private fun salvaNumeros(
+        numeroCelular: String,
+        numeroFixo: String,
+        idAlunoSalvo: Int
+    ) {
+        when {
+            numeroCelular.isNotBlank() and numeroFixo.isNotBlank() -> {
+                val telefoneCelular =
+                    Telefone(numeroCelular, TipoTelefone.CELULAR, idAlunoSalvo)
+                val telefoneFixo =
+                    Telefone(numeroFixo, TipoTelefone.FIXO, idAlunoSalvo)
+                telefoneDao.salva(telefoneCelular, telefoneFixo)
+            }
+
+            numeroCelular.isNotBlank() -> {
+                val telefoneCelular =
+                    Telefone(numeroCelular, TipoTelefone.CELULAR, idAlunoSalvo)
+                telefoneDao.salva(telefoneCelular)
+            }
+
+            numeroFixo.isNotBlank() -> {
+                val telefoneFixo =
+                    Telefone(numeroFixo, TipoTelefone.FIXO, idAlunoSalvo)
+                telefoneDao.salva(telefoneFixo)
+            }
+        }
+    }
+
+    private fun alunoTemIdValido() = aluno.id > 0
+
+    private fun preencheObjetoAluno() {
+        aluno.nome = campoNome.text.toString()
+        aluno.email = campoEmail.text.toString()
     }
 
     private fun carregaAluno() {
@@ -83,9 +141,18 @@ class FormularioAlunoActivity : AppCompatActivity() {
     }
 
     private fun preencheCampos() {
+
         campoNome.setText(aluno.nome)
-//        campoTelefoneCelular.setText(aluno.telefoneCelular)
-//        campoTelefoneFixo.setText(aluno.telefoneFixo)
+
+        todosTelefonesDoAluno = telefoneDao.buscaTodosTelefonesDoAluno(aluno.id)
+        todosTelefonesDoAluno.forEach {
+            if (it.tipo == TipoTelefone.CELULAR) {
+                campoTelefoneCelular.setText(it.numero)
+            } else {
+                campoTelefoneFixo.setText(it.numero)
+            }
+        }
+
         campoEmail.setText(aluno.email)
     }
 
