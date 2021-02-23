@@ -81,16 +81,26 @@ class FormularioAlunoActivity : AppCompatActivity() {
     }
 
     private fun editaTelefones() {
+
+        val numeroCelular = campoTelefoneCelular.text.toString()
+        val telefoneCelular =
+            Telefone(numeroCelular, TipoTelefone.CELULAR, aluno.id)
+        val numeroFixo = campoTelefoneFixo.text.toString()
+        val telefoneFixo =
+            Telefone(numeroFixo, TipoTelefone.FIXO, aluno.id)
+
         todosTelefonesDoAluno.forEach {
 
             if (it.tipo == TipoTelefone.CELULAR) {
-                it.numero = campoTelefoneCelular.text.toString()
+                telefoneCelular.id = it.id
             } else {
-                it.numero = campoTelefoneFixo.text.toString()
+                telefoneFixo.id = it.id
             }
 
         }
-        telefoneDao.edita(todosTelefonesDoAluno)
+
+        telefoneDao.atualiza(telefoneCelular, telefoneFixo)
+
     }
 
     private fun salvaNumeros(

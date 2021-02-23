@@ -2,8 +2,8 @@ package me.vitornascimento.agenda.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import me.vitornascimento.agenda.model.Telefone
 
 @Dao
@@ -25,7 +25,7 @@ interface TelefoneDAO {
     )
     fun buscaTodosTelefonesDoAluno(alunoId: Int): List<Telefone>
 
-    @Update
-    fun edita(telefones: List<Telefone>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun atualiza(vararg telefones: Telefone)
 
 }
