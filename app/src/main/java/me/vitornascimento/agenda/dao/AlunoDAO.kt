@@ -7,7 +7,7 @@ import me.vitornascimento.agenda.model.Aluno
 interface AlunoDAO {
 
     @Insert
-    fun salva(aluno: Aluno)
+    fun salva(aluno: Aluno): Long
 
     @Query("SELECT * FROM aluno")
     fun todos(): List<Aluno>

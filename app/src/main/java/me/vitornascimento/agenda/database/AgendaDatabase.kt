@@ -15,7 +15,7 @@ import me.vitornascimento.agenda.model.Aluno
 import me.vitornascimento.agenda.model.Telefone
 import me.vitornascimento.agenda.model.TipoTelefone
 
-@Database(entities = [Aluno::class, Telefone::class], version = 7, exportSchema = false)
+@Database(entities = [Aluno::class, Telefone::class], version = 9, exportSchema = false)
 @TypeConverters(value = [ConversorCalender::class, ConversorTipoTelefone::class])
 abstract class AgendaDatabase : RoomDatabase() {
 

@@ -13,13 +13,13 @@ import java.util.*
 data class Aluno(
 
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 1,
+    var id: Int = 0,
 
     @ColumnInfo
-    var nome: String? = "",
+    var nome: String = "",
 
     @ColumnInfo
-    var email: String? = "",
+    var email: String = "",
 
     @ColumnInfo
     var momentoDeCadastro: Calendar = Calendar.getInstance()
@@ -27,7 +27,7 @@ data class Aluno(
 ) : Parcelable {
 
     override fun toString(): String {
-        return nome!!
+        return nome
     }
 
     fun getDataFormatada(): String {

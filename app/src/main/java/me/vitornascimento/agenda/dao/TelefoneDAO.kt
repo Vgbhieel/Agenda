@@ -1,6 +1,7 @@
 package me.vitornascimento.agenda.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import me.vitornascimento.agenda.model.Telefone
 
@@ -13,5 +14,8 @@ interface TelefoneDAO {
                 "LIMIT 1"
     )
     fun buscaPrimeiroTelefoneDoAluno(alunoId: Int): Telefone
+
+    @Insert
+    fun salva(vararg telefones: Telefone)
 
 }
